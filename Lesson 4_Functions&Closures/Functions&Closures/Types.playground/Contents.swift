@@ -155,6 +155,22 @@ func fib(n: Int) -> [Int] {
     
     return arr
 }
+
+func fibRec(_ n: Int) -> Int {
+       if n <= 1 {
+           return n
+       }
+       return fibRec(n - 1) + fibRec(n - 2)
+   }
+   
+   var arr: [Int] = []
+   for i in 0...n {
+       arr.append(fibRec(i))
+   }
+   
+   return arr
+}
+
 fib(n: 6)
 
 
