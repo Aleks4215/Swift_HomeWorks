@@ -98,7 +98,7 @@ func isSimpleNumber(n: Int) -> Bool {
     return false
 }
 
-isSimpleNumber(n: 3491)
+isSimpleNumber(n: 655360001)
 
 
 //8. Создать функцию, принимающую 1 аргумент — номер месяца (от 1 до 12), и
