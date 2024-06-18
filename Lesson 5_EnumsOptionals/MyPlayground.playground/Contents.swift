@@ -1,13 +1,13 @@
 import UIKit
 
-enum Seasons {
+enum Season {
     case winter
     case spring
     case summer
     case autumn
     case error
     
-    func season(month: Int) -> Seasons {
+    func season(month: Int) -> Season {
         switch month {
         case 1,2,12:
             return.winter
