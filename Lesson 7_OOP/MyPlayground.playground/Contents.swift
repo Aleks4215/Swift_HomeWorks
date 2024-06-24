@@ -39,17 +39,10 @@ class Pupil: Person {
 }
 
 
-class Adress {
-    
-    var x: String
-    var y: String
-    var streetName: String
-    
-    init(x: String, y: String, streetName: String) {
-        self.x = x
-        self.y = y
-        self.streetName = streetName
-    }
+struct Address {
+    let x: String
+    let y: String
+    let streetName: String
 }
 
 
@@ -58,18 +51,16 @@ struct School {
     var titile: String
     
     let director: Director
-    let adress: Adress
+    let address: Address
     
     func aboutSchool( ) {
         print("Школа \(titile), директор \(director.name) \(director.surname), ученики \(students.count), x \(adress.x), y \(adress.y), название улицы \(adress.streetName)")
     }
-    
-    
 }
 
 let pupil = Pupil(classNumber: 1, schoolAssessment: ("Информатика", 4), name: "Василий", surname: "Пупкин", age: 6)
 let director = Director(experience: "10 лет", rating: 10, name: "Григорий", surname: "Васильев", age: 44)
-let adress = Adress(x: "123", y: "12", streetName: "Улица Пушкина")
-let school = School(students: [pupil], titile: "1", director: director, adress: adress)
+let adress = Address(x: "123", y: "12", streetName: "Улица Пушкина")
+let school = School(students: [pupil], titile: "1", director: director, address: adress)
 pupil.aboutPupil()
 school.aboutSchool()
