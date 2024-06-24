@@ -14,12 +14,7 @@ for number in arr2 {
 
 func squrArr(arr: [Int]) -> [Int] {
     
-    var squarArr: [Int] = []
-    
-    arr.forEach { number in
-        squarArr.append(number * number)
-    }
-    return squarArr
+    return arr.map { $0 * $0 }
 }
 
 squrArr(arr: arr2)
