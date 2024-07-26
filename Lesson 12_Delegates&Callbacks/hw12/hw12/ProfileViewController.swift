@@ -7,86 +7,250 @@
 
 import UIKit
 
-
-struct UserModel {
-    var firtName: String?
-    let lastName: String?
-    let age: Int?
-    let genger: String?
-    let birthDay: Date?
-    let interests: [String]?
-}
-
 class ProfileViewController: UIViewController {
     
-    let editProfileViewController = EditViewController()
+    let interesesCollectionView = InteresesCollectionViewController()
     
-    var transferData: ((String) -> Void)?
+    let vStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.spacing = 16
+        stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
-    init(transferData: ((String) -> Void)? = nil) {
-        self.transferData = transferData
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    let firstName: UILabel = {
+    var firstName: UILabel = {
         let label = UILabel()
-        label.text = "First name"
+        label.text = "Введите ваше имя"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    
-   lazy var firstNameTextField: UITextField = {
-        let textField = UITextField()
-       textField.placeholder = "Передача данных"
-       textField.translatesAutoresizingMaskIntoConstraints = false
-
-        return textField
-    }()
-    
-    let changeName: UIButton = {
-       let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setImage(UIImage(systemName: "more"), for: .normal)
+    var editFirstName: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "highlighter"), for: .normal)
+        button.addTarget(self, action: #selector(editFirstNameButtonDidTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
         return button
     }()
     
-    func EditFirstNameButtonDidTap(userModel: UserModel) {
-        guard let firstName = firstNameTextField.text else { return }
-        let User = UserModel(firtName: firstName, lastName: nil, age: nil, genger: nil, birthDay: nil, interests: nil)
-        if let transferData {
-            guard let firstName = User.firtName else { return }
-            transferData(firstName)
+    var lastName: UILabel = {
+        let label = UILabel()
+        label.text = "Фамилия"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var editLastName: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "highlighter"), for: .normal)
+        button.addTarget(self, action: #selector(editLastNameButtonDidTap), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        return button
+    }()
+    
+    var ageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Возраст"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var editAge: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "highlighter"), for: .normal)
+        button.addTarget(self, action: #selector(editAgeButtonDidTap), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        return button
+    }()
+    
+    var gender: UILabel = {
+        let label = UILabel()
+        label.text = "Пол"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var editGender: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "highlighter"), for: .normal)
+        button.addTarget(self, action: #selector(editGenderButtonDidTap), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        return button
+    }()
+    
+    var birthayDay: UILabel = {
+        let label = UILabel()
+        label.text = "День рождения"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let intereses: UILabel = {
+        let label = UILabel()
+        label.text = "Интересы"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let editIntereses: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "highlighter"), for: .normal)
+        button.addTarget(self, action: #selector(editEnteresesButtonDidTap), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        return button
+    }()
+    
+    var editBirthDayButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "highlighter"), for: .normal)
+        button.addTarget(self, action: #selector(editAgeButtonDidTap), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        return button
+    }()
+    
+    @objc func editEnteresesButtonDidTap() {
+        let edicVC = EditViewController()
+        edicVC.isHiddenIntereses = false
+        edicVC.saveButton.isHidden = true
+        edicVC.editTextField.isHidden = true
+        self.present(edicVC, animated: true)
+    }
+        
+    @objc func editFirstNameButtonDidTap() {
+        let editVC = EditViewController()
+        editVC.recivedText = self.firstName.text
+        editVC.transferData = { [weak self] text in
+            self?.firstName.text = text
         }
+        self.present(editVC, animated: true, completion: nil)
+    }
+    
+    @objc func editLastNameButtonDidTap() {
+        let editVC = EditViewController()
+        editVC.recivedText = self.lastName.text
+        editVC.transferData = { [weak self] text in
+            self?.lastName.text = text
         }
-
-
+        self.present(editVC, animated: true, completion: nil)
+    }
+    
+    func getDateFromLabel() -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        if let dateString = birthayDay.text?.replacingOccurrences(of: "День рождения ", with: ""),
+           let date = dateFormatter.date(from: dateString) {
+            return date
+        }
+        return Date()
+    }
+    
+    @objc func editAgeButtonDidTap() {
+        let editVC = EditViewController()
+        editVC.delegate = self
+        editVC.datePicker.isHidden = false
+        editVC.saveButton.isHidden = true
+        editVC.editTextField.isHidden = true
+        editVC.saveDateButton.isHidden = false
+        editVC.datePicker.date = getDateFromLabel()
+        self.present(editVC, animated: true)
+    }
+    
+    @objc func editGenderButtonDidTap() {
+        let editVC = EditViewController()
+        editVC.recivedText = self.gender.text
+        editVC.delegate = self
+        editVC.saveGenderButton.isHidden = false
+        editVC.saveButton.isHidden = true
+        editVC.editTextField.isHidden = true
+        editVC.segmentedControl.isHidden = false
+        self.present(editVC, animated: true, completion: nil)
+    }
+    
+    func calculateAge(from date: Date) -> Int {
+        let calendar = Calendar.current
+        let now = Date()
+        let age = calendar.dateComponents([.year], from: date, to: now)
+        return age.year ?? 0
+    }
+    
+    func makeMainStackView() {
+        view.addSubview(vStackView)
+        NSLayoutConstraint.activate([
+            vStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            vStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            vStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
+    
+    func createHStackView(elements: UIView...) -> UIStackView {
+        let stackViews = UIStackView(arrangedSubviews: elements)
+        stackViews.axis = .horizontal
+        stackViews.spacing = 8
+        stackViews.distribution = .equalCentering
+        stackViews.translatesAutoresizingMaskIntoConstraints = false
+        return stackViews
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addSubview(firstName)
-        view.addSubview(firstNameTextField)
-        view.addSubview(changeName)
-    
+        makeMainStackView()
+        view.addSubview(interesesCollectionView)
         
-        firstName.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        firstName.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
-        firstName.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
+        let firstNameStack = createHStackView(elements: firstName, editFirstName)
+        vStackView.addArrangedSubview(firstNameStack)
         
-        firstNameTextField.topAnchor.constraint(equalTo: firstName.bottomAnchor, constant: 10).isActive = true
-        firstNameTextField.leadingAnchor.constraint(equalTo: firstName.leadingAnchor).isActive = true
+        let lastNameStack = createHStackView(elements: lastName, editLastName)
+        vStackView.addArrangedSubview(lastNameStack)
         
-        changeName.leadingAnchor.constraint(equalTo: firstNameTextField.trailingAnchor, constant: 10).isActive = true
-        changeName.centerYAnchor.constraint(equalTo: firstNameTextField.centerYAnchor).isActive = true
-        changeName.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5).isActive = true
-
+        let ageStack = createHStackView(elements: ageLabel, editAge)
+        vStackView.addArrangedSubview(ageStack)
+        
+        let genderStack = createHStackView(elements: gender, editGender)
+        vStackView.addArrangedSubview(genderStack)
+        
+        let dayStack = createHStackView(elements: birthayDay, editBirthDayButton)
+        vStackView.addArrangedSubview(dayStack)
+        
+        let interesesFirst = createHStackView(elements: intereses, editIntereses)
+        vStackView.addArrangedSubview(interesesFirst)
+        let intereses = createHStackView(elements: interesesCollectionView)
+        vStackView.addArrangedSubview(intereses)
+        NSLayoutConstraint.activate([
+                interesesCollectionView.heightAnchor.constraint(equalToConstant: 100)
+            ])
+        
     }
-
-
 }
+
+extension ProfileViewController: EditDelegate {
+    func didSelectDate(date: Date) {
+        let age = calculateAge(from: date)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        let dateString = dateFormatter.string(from: date)
+        birthayDay.text = "День рождения \(dateString)"
+        ageLabel.text = "Возраст: \(age)"
+    }
+    
+    func didSelectGender(gender: String) {
+        self.gender.text = gender
+    }
+}
+
+
+
 
