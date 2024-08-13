@@ -48,9 +48,6 @@ class ViewController: UIViewController {
             //present(menuVC, animated: true)
             UIView.animate(withDuration: 0.3) { [weak self] in
                 menuVC.view.center = self!.circleView.center
-                self!.view.addSubview(menuVC.view)
-                self!.addChild(menuVC)
-                menuVC.didMove(toParent: self)
                 menuVC.view.alpha = 1
             }
         }
@@ -101,7 +98,16 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(circleView)
-        
+        let menuVC = MenuViewController(
+            upButtonAction: { [weak self] in self?.moveCircle(direction: .up) },
+            downButtonAction: { [weak self] in self?.moveCircle(direction: .down) },
+            leftButtonAction: { [weak self] in self?.moveCircle(direction: .left) },
+            rightButtonAction: { [weak self] in self?.moveCircle(direction: .right) }
+        )
+        self.view.addSubview(menuVC.view)
+        self.addChild(menuVC)
+        menuVC.didMove(toParent: self)
+        menuVC.view.alpha = 0
         NSLayoutConstraint.activate([
             circleView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             circleView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
