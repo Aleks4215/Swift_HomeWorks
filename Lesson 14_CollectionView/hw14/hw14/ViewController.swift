@@ -68,5 +68,4 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
           return 10
       }
     
-    
 }
