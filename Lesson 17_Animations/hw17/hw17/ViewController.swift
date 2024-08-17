@@ -9,6 +9,17 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    lazy var menuVC = MenuViewController(
+        upButtonAction: { [weak self] in 
+            self?.moveCircle(direction: .up) },
+        downButtonAction: {[weak self] in
+            self?.moveCircle(direction: .down) },
+        leftButtonAction: {[weak self] in
+            self?.moveCircle(direction: .left) },
+        rightButtonAction: {[weak self] in
+            self?.moveCircle(direction: .right) }
+    )
+    
     lazy var circleView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 75
@@ -23,35 +34,22 @@ class ViewController: UIViewController {
     
     @objc private func showMovementMenu(_ recognizer: UILongPressGestureRecognizer) {
         if recognizer.state == .began {
-            let menuVC = MenuViewController(
-                upButtonAction: { [weak self] in self?.moveCircle(direction: .up) },
-                downButtonAction: { [weak self] in self?.moveCircle(direction: .down) },
-                leftButtonAction: { [weak self] in self?.moveCircle(direction: .left) },
-                rightButtonAction: { [weak self] in self?.moveCircle(direction: .right) }
+            let menuSize: CGFloat = 100
+            menuVC.preferredContentSize = CGSize(width: menuSize, height: menuSize)
+            let circleBounds = circleView.bounds
+            menuVC.view.frame = CGRect(
+                x: (circleBounds.width - menuSize) / 2,
+                y: (circleBounds.height - menuSize) / 2,
+                width: menuSize,
+                height: menuSize
             )
-            
-//            menuVC.modalPresentationStyle = .popover
-//            menuVC.popoverPresentationController?.sourceView = circleView
-            
-//            let menuWidth: CGFloat = 120
-//            let menuHeight: CGFloat = 150
-//            
-//            menuVC.popoverPresentationController?.sourceRect = CGRect(
-//                x: circleCenter.x - menuWidth / 2,
-//                y: circleCenter.y - menuHeight / 2,
-//                width: menuWidth,
-//                height: menuHeight
-//            )
-//            
-//            menuVC.preferredContentSize = CGSize(width: menuWidth, height: menuHeight)
-            
-            //present(menuVC, animated: true)
+            circleView.addSubview(menuVC.view)
             UIView.animate(withDuration: 0.3) { [weak self] in
-                menuVC.view.center = self!.circleView.center
-                menuVC.view.alpha = 1
+                self?.menuVC.view.alpha = 1
             }
         }
     }
+
 
     
     enum Direction {
@@ -88,9 +86,9 @@ class ViewController: UIViewController {
         
         UIView.animate(withDuration: 0.3) {
             if let menuVC = self.children.first(where: {$0 is MenuViewController} ) {
-                self.circleView.center = newCenter
                 menuVC.view.alpha = 0
             }
+            self.circleView.center = newCenter
             
         }
     }
@@ -98,16 +96,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(circleView)
-        let menuVC = MenuViewController(
-            upButtonAction: { [weak self] in self?.moveCircle(direction: .up) },
-            downButtonAction: { [weak self] in self?.moveCircle(direction: .down) },
-            leftButtonAction: { [weak self] in self?.moveCircle(direction: .left) },
-            rightButtonAction: { [weak self] in self?.moveCircle(direction: .right) }
-        )
-        self.view.addSubview(menuVC.view)
         self.addChild(menuVC)
-        menuVC.didMove(toParent: self)
+        self.view.addSubview(menuVC.view)
         menuVC.view.alpha = 0
+        menuVC.didMove(toParent: self)
         NSLayoutConstraint.activate([
             circleView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             circleView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
