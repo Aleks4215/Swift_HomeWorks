@@ -46,7 +46,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func dismissKeyboard() {
-        print(textField.text)
         textField.resignFirstResponder()
     }
     
@@ -57,10 +56,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             dismissKeyboard()
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
     
     func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -78,7 +73,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        topConstraint?.constant = 60
+        topConstraint?.constant = 90
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
@@ -89,12 +84,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         addSubviews(views: [textField, textLabel, showTextButton])
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
         topConstraint = textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 60)
         NSLayoutConstraint.activate([
             topConstraint!,
-            textField.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             textField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             textField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
