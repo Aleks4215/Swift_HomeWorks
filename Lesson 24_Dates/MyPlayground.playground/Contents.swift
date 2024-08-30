@@ -10,7 +10,7 @@ let cities: [City] = [
     City(name: "Нью-Йорк", timezoneOffset: -4),
     City(name: "Лондон", timezoneOffset: 0),
     City(name: "Токио", timezoneOffset: 9),
-    City(name: "Москва", timezoneOffset: 3) // Москва: UTC+3
+    City(name: "Москва", timezoneOffset: 3)
 ]
 
 func displayTime(for city: City) {
