@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  hw23
 //
-//  Created by Алексей on 29.08.24.
+//  Created by Алексей on 30.08.24.
 //
 
 import UIKit
