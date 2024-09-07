@@ -2,7 +2,6 @@
 //  ViewController.swift
 //  hw23
 //
-<<<<<<< HEAD
 //  Created by Алексей on 30.08.24.
 //
 
@@ -274,20 +273,3 @@ extension ViewController: WKNavigationDelegate {
 #Preview {
     ViewController()
 }
-=======
-//  Created by Алексей on 29.08.24.
-//
-
-import UIKit
-
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-
-}
-
->>>>>>> 6f3960f63230ebe21e4b9c404b8b46644cdfbd68
