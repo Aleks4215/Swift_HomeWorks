@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  hw16
+//  hw17
 //
-//  Created by Алексей on 3.08.24.
+//  Created by Алексей on 11.08.24.
 //
 
 import UIKit
