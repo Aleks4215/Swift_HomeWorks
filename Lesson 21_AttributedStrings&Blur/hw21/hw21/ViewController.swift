@@ -9,6 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    
     lazy var wrapper: UIView = {
        let view = UIView()
         view.backgroundColor = .white
@@ -17,11 +18,11 @@ class ViewController: UIViewController {
     }()
     
     lazy var textView: UITextView = {
-        let textVIew = UITextView()
-        textVIew.text = "42354234534533545656436546453456645645"
-//        textVIew.delegate = self
-        textVIew.translatesAutoresizingMaskIntoConstraints = false
-        return textVIew
+        let textView = UITextView()
+        textView.text = "42354234534533545656436546453456645645"
+        textView.font = .systemFont(ofSize: 9)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
     }()
     
     lazy var vStack: UIStackView = {
@@ -42,7 +43,14 @@ class ViewController: UIViewController {
     }()
 
     
-    func createSegmentedControl(title: String, firstTitle: String?, secondTitle: String?, thirdTitle: String?, firstAction: @escaping () -> Void, secondAction: @escaping () -> Void, thirdAction: @escaping () -> Void) -> UIView {
+    func createSegmentedControl(
+        title: String,
+        firstTitle: String?,
+        secondTitle: String?,
+        thirdTitle: String?,
+        firstAction: @escaping () -> Void,
+        secondAction: @escaping () -> Void,
+        thirdAction: @escaping () -> Void) -> UIView {
         let container = UIView()
         
         let titleLabel = UILabel()
@@ -125,27 +133,27 @@ class ViewController: UIViewController {
             vStack.leadingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             vStack.trailingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.trailingAnchor, constant: -15)
         ])
-        let changeStyleSegment = createSegmentedControl(title: "Смена стиля",
-                                                        firstTitle: "Bold",
-                                                        secondTitle: "Italic",
-                                                        thirdTitle: "Medium",
-                                                        firstAction: { self.changeStyle(style: .traitBold) },
-                                                        secondAction: { self.changeStyle(style: .traitItalic) },
-                                                        thirdAction: { self.changeStyle(style: .traitBold) })
-        let changeFontSizeSegment = createSegmentedControl(title: "Изменить размер",
-                                                           firstTitle: "3",
-                                                           secondTitle: "15",
-                                                           thirdTitle: "35",
-                                                           firstAction: { self.changeFontSize(to: 3) },
-                                                           secondAction: { self.changeFontSize(to: 15) },
-                                                           thirdAction: { self.changeFontSize(to: 35) })
-        let changeTextColorSegment = createSegmentedControl(title: "Изменить цвет",
-                                                            firstTitle: "Красный",
-                                                            secondTitle: "Зеленый",
-                                                            thirdTitle: "Синий",
-                                                            firstAction: { self.changeTextColor(to: .red) },
-                                                            secondAction: { self.changeTextColor(to: .green)  },
-                                                            thirdAction: { self.changeTextColor(to: .blue) })
+        lazy var changeStyleSegment = createSegmentedControl(title: "Смена стиля",
+                                                firstTitle: "Bold",
+                                                secondTitle: "Italic",
+                                                thirdTitle: "Medium",
+                                                firstAction: { [weak self] in self?.changeStyle(style: .traitBold) },
+                                                secondAction: { [weak self] in self?.changeStyle(style: .traitItalic) },
+                                                thirdAction: { [weak self] in self?.changeStyle(style: .traitBold) })
+        lazy var changeFontSizeSegment = createSegmentedControl(title: "Изменить размер",
+                                                firstTitle: "3",
+                                                secondTitle: "15",
+                                                thirdTitle: "35",
+                                                firstAction: { [weak self] in self?.changeFontSize(to: 3) },
+                                                secondAction: { [weak self] in self?.changeFontSize(to: 15) },
+                                                thirdAction: { [weak self] in self?.changeFontSize(to: 35) })
+        lazy var changeTextColorSegment = createSegmentedControl(title: "Изменить цвет",
+                                                firstTitle: "Красный",
+                                                secondTitle: "Зеленый",
+                                                thirdTitle: "Синий",
+                                                firstAction: { [weak self] in self?.changeTextColor(to: .red) },
+                                                secondAction: { [weak self] in self?.changeTextColor(to: .green)  },
+                                                thirdAction: { [weak self] in self?.changeTextColor(to: .blue) })
         
         vStack.addArrangedSubview(changeStyleSegment)
         vStack.addArrangedSubview(changeFontSizeSegment)
@@ -165,13 +173,16 @@ class ViewController: UIViewController {
         
         switch style {
         case .traitBold:
-            fontDescriptor = fontDescriptor.withSymbolicTraits(fontDescriptor.symbolicTraits.union(.traitBold)) ?? fontDescriptor
+            fontDescriptor = fontDescriptor.withSymbolicTraits(fontDescriptor.symbolicTraits.union(.traitBold)) 
+                ?? fontDescriptor
 
         case .traitItalic:
-            fontDescriptor = fontDescriptor.withSymbolicTraits(fontDescriptor.symbolicTraits.union(.traitItalic)) ?? fontDescriptor
+            fontDescriptor = fontDescriptor.withSymbolicTraits(fontDescriptor.symbolicTraits.union(.traitItalic)) 
+                ?? fontDescriptor
 
         case [.traitBold, .traitItalic]:
-            fontDescriptor = fontDescriptor.withSymbolicTraits([.traitBold, .traitItalic]) ?? fontDescriptor
+            fontDescriptor = fontDescriptor.withSymbolicTraits([.traitBold, .traitItalic]) 
+                ?? fontDescriptor
 
         default:
             break
@@ -209,9 +220,6 @@ class ViewController: UIViewController {
         textView.selectedRange = range
         clearAtributedButton.isEnabled = true
     }
-
-
-
     
     func changeTextColor(to color: UIColor) {
         let range = textView.selectedRange
@@ -231,13 +239,15 @@ class ViewController: UIViewController {
         let plainText = textView.text(in: textView.selectedTextRange!)
         let newAttributedText = NSAttributedString(string: plainText ?? "")
         let mutableAttributedText = NSMutableAttributedString(attributedString: textView.attributedText)
-        mutableAttributedText.replaceCharacters(in: NSRange(location: selectedRange.location, length: selectedRange.length), with: newAttributedText)
+        mutableAttributedText.replaceCharacters(in: 
+                                                    NSRange(location: selectedRange.location,
+                                                            length: selectedRange.length),
+                                                with: newAttributedText)
         
         textView.attributedText = mutableAttributedText
         textView.selectedRange = selectedRange
         clearAtributedButton.isEnabled = true
     }
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -245,5 +255,4 @@ class ViewController: UIViewController {
         setupTextView()
         setupVStackView()
     }
-
 }
