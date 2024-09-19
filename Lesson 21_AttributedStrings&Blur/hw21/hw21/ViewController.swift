@@ -9,6 +9,41 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    lazy var changeStyleActions: [UIAction] = [
+        UIAction(title: "Bold", handler: { [weak self] _ in
+        self?.changeStyle(style: .traitBold)
+    }),
+        UIAction(title: "Italic", handler: { [weak self] _ in
+            self?.changeStyle(style: .traitItalic)
+        }),
+        UIAction(title: "Medium", handler: {[weak self] _ in
+            self?.changeStyle(style: .traitBold)
+        })
+    ]
+    
+    lazy var changeFontsizeActions: [UIAction] = [
+        UIAction(title: "3", handler: { [weak self] _ in
+            self?.changeFontSize(to: 3)
+        }),
+        UIAction(title: "15", handler: {[weak self] _ in
+            self?.changeFontSize(to: 15)
+        }),
+        UIAction(title: "35", handler: {[weak self] _ in
+            self?.changeFontSize(to: 35)
+        })
+    ]
+    
+    lazy var changeTextColorActions: [UIAction] = [
+        UIAction(title: "Красный", handler: { [weak self] _ in
+            self?.changeTextColor(to: .red)
+        }),
+        UIAction(title: "Зеленый", handler: { [weak self] _ in
+            self?.changeTextColor(to: .green)
+        }),
+        UIAction(title: "Синий", handler: { [weak self] _ in
+            self?.changeTextColor(to: .blue)
+        })
+    ]
     
     lazy var wrapper: UIView = {
        let view = UIView()
@@ -43,65 +78,17 @@ class ViewController: UIViewController {
     }()
 
     
-    func createSegmentedControl(
-        title: String,
-        firstTitle: String?,
-        secondTitle: String?,
-        thirdTitle: String?,
-        firstAction: @escaping () -> Void,
-        secondAction: @escaping () -> Void,
-        thirdAction: @escaping () -> Void) -> UIView {
-        let container = UIView()
+    func makeSegmentControlWithTitle(title: String, actions: [UIAction]) -> UIView {
+        let label = UILabel()
+        label.text = title
         
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        titleLabel.textAlignment = .center
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        let stackView = UIStackView(arrangedSubviews: [label, UISegmentedControl(frame: .zero, actions: actions)])
+        stackView.setCustomSpacing(5, after: label)
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        let segmentedControl = UISegmentedControl()
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.tintColor = .systemBlue
-        segmentedControl.backgroundColor = .white
-        
-        if let firstTitle = firstTitle {
-            segmentedControl.insertSegment(withTitle: firstTitle, at: 0, animated: true)
-        }
-        if let secondTitle = secondTitle {
-            segmentedControl.insertSegment(withTitle: secondTitle, at: 1, animated: true)
-        }
-        if let thirdTitle = thirdTitle {
-            segmentedControl.insertSegment(withTitle: thirdTitle, at: 2, animated: true)
-        }
-        
-        segmentedControl.addAction(UIAction { _ in
-            switch segmentedControl.selectedSegmentIndex {
-            case 0:
-                firstAction()
-            case 1:
-                secondAction()
-            case 2:
-                thirdAction()
-            default:
-                break
-            }
-        }, for: .valueChanged)
-        
-        container.addSubview(titleLabel)
-        container.addSubview(segmentedControl)
-        
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: container.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            
-            segmentedControl.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            segmentedControl.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            segmentedControl.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            segmentedControl.bottomAnchor.constraint(equalTo: container.bottomAnchor)
-        ])
-        
-        return container
+        return stackView
     }
     
     func setupWrapper() {
@@ -126,41 +113,28 @@ class ViewController: UIViewController {
     }
     
     func setupVStackView() {
-        wrapper.addSubview(vStack)
-        NSLayoutConstraint.activate([
-            vStack.heightAnchor.constraint(equalTo: wrapper.heightAnchor, multiplier: 0.3),
-            vStack.topAnchor.constraint(equalTo: textView.safeAreaLayoutGuide.bottomAnchor, constant: 15),
-            vStack.leadingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            vStack.trailingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.trailingAnchor, constant: -15)
-        ])
-        lazy var changeStyleSegment = createSegmentedControl(title: "Смена стиля",
-                                                firstTitle: "Bold",
-                                                secondTitle: "Italic",
-                                                thirdTitle: "Medium",
-                                                firstAction: { [weak self] in self?.changeStyle(style: .traitBold) },
-                                                secondAction: { [weak self] in self?.changeStyle(style: .traitItalic) },
-                                                thirdAction: { [weak self] in self?.changeStyle(style: .traitBold) })
-        lazy var changeFontSizeSegment = createSegmentedControl(title: "Изменить размер",
-                                                firstTitle: "3",
-                                                secondTitle: "15",
-                                                thirdTitle: "35",
-                                                firstAction: { [weak self] in self?.changeFontSize(to: 3) },
-                                                secondAction: { [weak self] in self?.changeFontSize(to: 15) },
-                                                thirdAction: { [weak self] in self?.changeFontSize(to: 35) })
-        lazy var changeTextColorSegment = createSegmentedControl(title: "Изменить цвет",
-                                                firstTitle: "Красный",
-                                                secondTitle: "Зеленый",
-                                                thirdTitle: "Синий",
-                                                firstAction: { [weak self] in self?.changeTextColor(to: .red) },
-                                                secondAction: { [weak self] in self?.changeTextColor(to: .green)  },
-                                                thirdAction: { [weak self] in self?.changeTextColor(to: .blue) })
+        let changeStyleSegment = makeSegmentControlWithTitle(title: "Смена стиля", actions: changeStyleActions)
+        wrapper.addSubview(changeStyleSegment)
         
-        vStack.addArrangedSubview(changeStyleSegment)
-        vStack.addArrangedSubview(changeFontSizeSegment)
-        vStack.addArrangedSubview(changeTextColorSegment)
-        vStack.setCustomSpacing(20, after: changeTextColorSegment)
-        vStack.addArrangedSubview(clearAtributedButton)
-
+        let changeSizeSegment = makeSegmentControlWithTitle(title: "Изменить размер", actions: changeFontsizeActions)
+        wrapper.addSubview(changeSizeSegment)
+        
+        let changeColorSegment = makeSegmentControlWithTitle(title: "Изменить цвет", actions: changeTextColorActions)
+        wrapper.addSubview(changeColorSegment)
+        
+        NSLayoutConstraint.activate([
+            changeStyleSegment.topAnchor.constraint(equalTo: textView.safeAreaLayoutGuide.bottomAnchor, constant: 15),
+            changeStyleSegment.leadingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            changeSizeSegment.trailingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            
+            changeSizeSegment.topAnchor.constraint(equalTo: changeStyleSegment.safeAreaLayoutGuide.bottomAnchor, constant: 15),
+            changeSizeSegment.leadingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            changeSizeSegment.trailingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            
+            changeColorSegment.topAnchor.constraint(equalTo: changeSizeSegment.safeAreaLayoutGuide.bottomAnchor, constant: 15),
+            changeColorSegment.leadingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            changeColorSegment.trailingAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+        ])
     }
     
     func changeStyle(style: UIFontDescriptor.SymbolicTraits) {
@@ -256,3 +230,4 @@ class ViewController: UIViewController {
         setupVStackView()
     }
 }
+
