@@ -1,6 +1,6 @@
 
 class Apartment {
-    var address: String
+    let address: String
     var rent: Double
     var person: Person? = nil
 
@@ -17,7 +17,7 @@ class Apartment {
 }
 
 class Person {
-    var name: String
+    let name: String
     var age: Int
     weak var apartment: Apartment?
 
