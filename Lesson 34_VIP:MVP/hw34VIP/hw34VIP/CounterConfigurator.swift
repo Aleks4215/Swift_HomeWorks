@@ -5,10 +5,10 @@
 //  Created by Алексей on 13.10.24.
 //
 
-import Foundation
+import UIKit
 
 class CounterConfigurator {
-    static func configure(viewController: CounterViewController) {
+    static func build(viewController: CounterViewController) -> UIViewController {
         let interactor = CounterInteractor()
         let presenter = CounterPresenter()
         
@@ -16,5 +16,7 @@ class CounterConfigurator {
         interactor.presenter = presenter
         
         presenter.viewController = viewController
+        
+        return viewController
     }
 }

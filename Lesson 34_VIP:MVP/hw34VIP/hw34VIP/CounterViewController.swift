@@ -14,6 +14,7 @@ protocol CounterDisplayLogic: AnyObject {
 class CounterViewController: UIViewController, CounterDisplayLogic {
     
     var interactor: CounterBisinessLogic?
+    let initialValue = 0
     
     lazy var counterLabel: UILabel = {
        let label = UILabel()
@@ -82,7 +83,7 @@ class CounterViewController: UIViewController, CounterDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        let request = Counter.Request(action: .initial)
-        interactor?.changeCounter(request: request)
+        
+        let request = Counter.Response(value: initialValue)
     }
 }

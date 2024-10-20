@@ -19,11 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let viewController = CounterViewController()
             
-        CounterConfigurator.configure(viewController: viewController)
-            
-        window.rootViewController = viewController
+        window.rootViewController = CounterConfigurator.build(viewController: CounterViewController())
         self.window = window
         window.makeKeyAndVisible()
         

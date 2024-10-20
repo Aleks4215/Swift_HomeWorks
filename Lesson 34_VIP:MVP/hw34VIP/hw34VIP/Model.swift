@@ -26,6 +26,5 @@ enum Counter {
     enum CounterAction {
         case plus
         case minus
-        case initial
     }
 }

@@ -14,7 +14,8 @@ protocol CounterBisinessLogic {
 class CounterInteractor: CounterBisinessLogic {
     
     var presenter: CounterPresentationLogic?
-    private var counterValue: Int = 0
+    var counterValue: Int = 0
+    
     
     func changeCounter(request: Counter.Request) {
         switch request.action {
@@ -26,8 +27,6 @@ class CounterInteractor: CounterBisinessLogic {
                 if counterValue > 0 {
                     counterValue -= 1
                 }
-            case .initial:
-                counterValue = 0
         }
         
         let response = Counter.Response(value: counterValue)
