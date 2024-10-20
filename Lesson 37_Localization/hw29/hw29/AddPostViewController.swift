@@ -33,7 +33,7 @@ class AddPostViewController: UIViewController {
        let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.tintColor = .systemBlue
-        textField.placeholder = "Title"
+        textField.placeholder = NSLocalizedString("post.title", comment: "")
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -42,14 +42,14 @@ class AddPostViewController: UIViewController {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.tintColor = .systemBlue
-        textField.placeholder = "Text"
+        textField.placeholder = NSLocalizedString("post.text", comment: "")
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     lazy var createButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Опубликовать новый пост", for: .normal)
+        button.setTitle("\(NSLocalizedString("post.addPost", comment: ""))", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(createButtonDidTapped), for: .touchUpInside)
         button.isHidden = true
@@ -59,7 +59,7 @@ class AddPostViewController: UIViewController {
     
     lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Сохранить", for: .normal)
+        button.setTitle("\(NSLocalizedString("post.save", comment: ""))", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(saveButtonDidTapped), for: .touchUpInside)
         button.isHidden = true

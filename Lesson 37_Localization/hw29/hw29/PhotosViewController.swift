@@ -37,7 +37,7 @@ class PhotosViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Photos"
+        self.title = "\(NSLocalizedString("photos", comment: ""))"
         view.addSubview(collectionView)
         
         let availableWidth = view.frame.width - 40

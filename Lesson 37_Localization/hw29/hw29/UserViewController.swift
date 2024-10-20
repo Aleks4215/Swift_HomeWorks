@@ -24,7 +24,7 @@ class UserViewController: UIViewController {
     lazy var usernameTitleLabel: UILabel = {
        let label = UILabel()
         label.textColor = .systemGray
-        label.text = "Username"
+        label.text = NSLocalizedString("user.username", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -38,7 +38,7 @@ class UserViewController: UIViewController {
     lazy var emailTitleLabel: UILabel = {
        let label = UILabel()
         label.textColor = .systemGray
-        label.text = "Email"
+        label.text = NSLocalizedString("user.email", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -52,7 +52,7 @@ class UserViewController: UIViewController {
     lazy var phoneTitleLabel: UILabel = {
        let label = UILabel()
         label.textColor = .systemGray
-        label.text = "Phone"
+        label.text = NSLocalizedString("user.phone", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -66,7 +66,7 @@ class UserViewController: UIViewController {
     lazy var companyTitleLabel: UILabel = {
        let label = UILabel()
         label.textColor = .systemGray
-        label.text = "Company"
+        label.text = NSLocalizedString("user.company", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -128,8 +128,8 @@ class UserViewController: UIViewController {
 
         let annotation = MKPointAnnotation()
         annotation.coordinate = location
-        annotation.title = "Местоположение"
-        annotation.subtitle = "Широта: \(latitude), Долгота: \(longitude)"
+        annotation.title = NSLocalizedString("user.location", comment: "")
+        annotation.subtitle = "\(NSLocalizedString("user.latitude", comment: "")) \(latitude), \(NSLocalizedString("user.longitude", comment: "")) \(longitude)"
         companyLocationView.addAnnotation(annotation)
 
         let region = MKCoordinateRegion(center: location, latitudinalMeters: 10000, longitudinalMeters: 10000)

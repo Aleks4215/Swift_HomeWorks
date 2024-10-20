@@ -37,7 +37,7 @@ class UsersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Users"
+        self.title = NSLocalizedString("users", comment: "")
         setupUI()
             APIHelper.shared.getUsers(completion: { [weak self] users in
                 self?.users = users

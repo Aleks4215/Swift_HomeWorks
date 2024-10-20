@@ -19,18 +19,18 @@ class TabBarController: UITabBarController {
         let usersNavigationController = UINavigationController(rootViewController: usersVC)
         
         postsNavigationController.tabBarItem = UITabBarItem(
-            title: "Posts",
-            image: UIImage(systemName: "doc.text.fill"), 
+            title: "\(NSLocalizedString("posts", comment: ""))",
+            image: UIImage(systemName: "doc.text.fill"),
             tag: 1
         )
         
         photosVC.tabBarItem = UITabBarItem(
-                   title: "Photos",
+                   title: "\(NSLocalizedString("photos", comment: ""))",
                    image: UIImage(systemName: "photo"),
                    tag: 2
                )
         usersVC.tabBarItem = UITabBarItem(
-                   title: "Users",
+                   title: "\(NSLocalizedString("users", comment: ""))",
                    image: UIImage(systemName: "person.2"),
                    tag: 3
                )

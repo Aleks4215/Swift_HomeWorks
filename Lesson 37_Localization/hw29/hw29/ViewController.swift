@@ -58,7 +58,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Posts"
+        self.title = NSLocalizedString("posts", comment: "")
         setupUI()
         APIHelper.shared.getPosts(completion: { [weak self] posts in
             self?.posts = posts
@@ -84,7 +84,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { [weak self] (action, view, completionHandler) in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
             guard let self = self else { return }
             let postId = self.posts[indexPath.row].id
             APIHelper.shared.deletePost(id: postId!) { success in
@@ -102,7 +102,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let updateAction = UIContextualAction(style: .normal, title: "Изменить") { [weak self] (action, view, completionHandler) in
+        let updateAction = UIContextualAction(style: .normal, title: "Edit") { [weak self] (action, view, completionHandler) in
             guard let self = self else { return }
             
             let postId = self.posts[indexPath.row].id!

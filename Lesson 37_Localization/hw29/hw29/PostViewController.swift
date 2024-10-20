@@ -30,7 +30,7 @@ class PostViewController: UIViewController {
     lazy var titleFieldTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
-        label.text = "Title"
+        label.text = NSLocalizedString("post.title", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -45,7 +45,7 @@ class PostViewController: UIViewController {
     lazy var textTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
-        label.text = "Text"
+        label.text = NSLocalizedString("post.text", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -60,7 +60,7 @@ class PostViewController: UIViewController {
     lazy var authorTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
-        label.text = "Author"
+        label.text = NSLocalizedString("post.author", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -125,6 +125,3 @@ class PostViewController: UIViewController {
     }
 }
 
-#Preview {
-    PostViewController(postId: 1, userId: 1)
-}
