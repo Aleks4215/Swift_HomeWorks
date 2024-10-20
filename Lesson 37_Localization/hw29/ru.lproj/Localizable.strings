@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings
+  hw29
+
+  Created by Алексей on 20.10.24.
+  
+*/
+
+"user.username" = "Имя пользователя";
+"user.phone" = "Телефон";
+"user.company" = "Компания";
+"user.email" = "Электронная почта";
+"user.location" = "Местоположение";
+"user.longitude" = "Долгота";
+"user.latitude" = "Широта";
+
+"main.edit" = "Редактировать";
+"main.delete" = "Удалить";
+
+"post.title" = "Заголовок";
+"post.author" = "Автор";
+"post.text" = "Текст";
+
+"post.addPost" = "Добавить пост";
+"post.save" = "Сохранить";
+
+"photos" = "Фотографии";
+"posts" = "Посты";
+"users" = "Пользователи";
