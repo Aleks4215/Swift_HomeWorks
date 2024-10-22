@@ -86,14 +86,29 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
             guard let self = self else { return }
-            let postId = self.posts[indexPath.row].id
-            APIHelper.shared.deletePost(id: postId!) { success in
+
+            guard indexPath.row < self.posts.count else {
+                completionHandler(false)
+                return
+            }
+
+            guard let postId = self.posts[indexPath.row].id else {
+                completionHandler(false)
+                return
+            }
+
+            APIHelper.shared.deletePost(id: postId) { success in
                 DispatchQueue.main.async {
                     if success {
-                        self.posts.remove(at: indexPath.row)
-                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        tableView.performBatchUpdates({
+                            self.posts.remove(at: indexPath.row)
+                            tableView.deleteRows(at: [indexPath], with: .automatic)
+                        }, completion: { _ in
+                            completionHandler(success)
+                        })
+                    } else {
+                        completionHandler(false)
                     }
-                    completionHandler(success)
                 }
             }
         }
