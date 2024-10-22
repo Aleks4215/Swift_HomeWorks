@@ -1,0 +1,7 @@
+target 'hw38Cocoapods' do
+pod 'Alamofire'
+pod 'Firebase', :modular_headers => true
+pod 'FirebaseCoreInternal', :modular_headers => true
+pod 'GoogleUtilities', :modular_headers => true
+pod 'FirebaseCore', :modular_headers => true
+end

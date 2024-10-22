@@ -1,0 +1,6 @@
+module Pods_hw38Cocoapods {
+  umbrella header "Pods-hw38Cocoapods-umbrella.h"
+
+  export *
+  module * { export * }
+}
