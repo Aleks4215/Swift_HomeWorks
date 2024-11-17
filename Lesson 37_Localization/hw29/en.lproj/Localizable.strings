@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  hw29
+
+  Created by Алексей on 20.10.24.
+  
+*/
+
+
+"user.username" = "Username";
+"user.phone" = "Phone";
+"user.company" = "Company";
+"user.email" = "Email";
+"user.location" = "Location";
+"user.longitude" = "Longitude";
+"user.latitude" = "Latitude";
+
+"main.edit" = "Edit";
+"main.delete" = "Delete";
+
+"post.title" = "Title";
+"post.author" = "Author";
+"post.text" = "Text";
+
+"post.addPost" = "Add Post";
+"post.save" = "Save";
+
+"photos" = "Photos";
+"posts" = "Posts";
+"users" = "Users";
+
+
