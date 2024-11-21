@@ -13,38 +13,55 @@ struct StudentDetails: View {
     
     var body: some View {
         VStack {
-            Avatar().frame(maxWidth: .infinity, alignment: .center)
-            VStack(alignment: .leading, spacing: 8) {
+            Avatar()
+            HStack {
                 Text("First name").bold()
                     .font(.headline)
+                Spacer()
+            }.padding(.leading, 10)
+            HStack {
                 Text(student.firstName)
+                Spacer()
+            }.padding(.leading, 10)
+            HStack {
                 Text("Last name").bold()
                     .font(.headline)
+                Spacer()
+            }.padding(.leading, 10)
+            HStack {
                 Text(student.lastName)
+                    .padding(.leading, 10)
+                Spacer()
             }
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
+
             
             Text("Homeworks")
                 .bold()
                 .font(.headline)
-                .frame(maxWidth: .infinity, alignment: .center)
             
             List {
                 ForEach(student.homeworks) { homework in
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(homework.title)
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                        Text(homework.description)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Text("Rate: \(homework.rate, specifier: "%.1f")")
-                            .font(.footnote)
-                            .foregroundColor(.gray)
+                        HStack {
+                            Text(homework.title)
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            Spacer()
+                        }
+                        HStack {
+                            Text(homework.description)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("Rate: \(homework.rate, specifier: "%.1f")")
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
                     }
                     .padding()
-                    .frame(maxWidth: .infinity)
                     .background(
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color(.systemGray6))
@@ -53,7 +70,6 @@ struct StudentDetails: View {
                 }
             }
         }
-        Spacer()
     }
 }
 
