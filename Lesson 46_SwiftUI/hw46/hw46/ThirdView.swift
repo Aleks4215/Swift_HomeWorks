@@ -11,7 +11,7 @@ struct ThirdView: View {
     var body: some View {
         ScrollView {
             VStack {
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: 30)
                     .fill(Color.pink)
                     .frame(minWidth: 340, minHeight: 370)
                     .padding([.leading, .trailing, .top], 20)
