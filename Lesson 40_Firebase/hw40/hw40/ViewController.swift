@@ -14,13 +14,13 @@ class ViewController: UIViewController {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.frame = view.bounds
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
     lazy var addButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("Add", for: .normal)
         button.addTarget(self, action: #selector(addButtonDidTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -29,8 +29,9 @@ class ViewController: UIViewController {
     
     private let db = Firestore.firestore()
     
-    private var tasks: [(id: String, title: String)] = .init() {
+    private var tasks: [(id: String, title: String)] = [] {
         didSet {
+            print("Tasks updated: \(tasks)")
             tableView.reloadData()
         }
     }
@@ -47,18 +48,23 @@ class ViewController: UIViewController {
     private func setupUI() {
         view.addSubview(tableView)
         view.addSubview(addButton)
-        
+        navigationController?.view.backgroundColor = .white
+                
         NSLayoutConstraint.activate([
             tableView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
             addButton.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            addButton.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
+            addButton.safeAreaLayoutGuide.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            addButton.safeAreaLayoutGuide.heightAnchor.constraint(equalToConstant: 44),
+            addButton.safeAreaLayoutGuide.widthAnchor.constraint(equalToConstant: 100)
             ])
     }
     
     private func fetchTasks() {
+           db.clearPersistence()
            db.collection("tasks").getDocuments { [weak self] snapshot, error in
                guard let self = self else { return }
                if let error = error {
